@@ -1,3 +1,4 @@
+# -*- indent-tabs-mode: nil;-*-
 module Orgmode
 
   class HtmlOutputBuffer < OutputBuffer
@@ -40,13 +41,18 @@ module Orgmode
 
       unless @options[:skip_syntax_highlight]
         begin
-          require 'pygments'
+          require 'rouge'
         rescue LoadError
-          # Pygments is not supported so we try instead with CodeRay
+          # No Rouge try Pygments
           begin
-            require 'coderay'
+            require 'pygments'
           rescue LoadError
-            # No code syntax highlighting
+            # Pygments is not supported so we try instead with CodeRay
+            begin
+              require 'coderay'
+            rescue LoadError
+              # No code syntax highlighting
+            end
           end
         end
       end
@@ -225,7 +231,9 @@ module Orgmode
 
     ######################################################################
     private
-
+def rouge_format(text)
+  
+end
     def skip_tables?
       @options[:skip_tables]
     end
