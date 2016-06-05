@@ -1,31 +1,31 @@
-# -*- indent-tabs-mode: nil;-*-
+# -*- indent-tabs-mode: nil;smart-tabs-mode: nil; tab-width: 2;-*-
 module Orgmode
 
   class HtmlOutputBuffer < OutputBuffer
 
     HtmlBlockTag = {
-      :paragraph        => "p",
-      :ordered_list     => "ol",
-      :unordered_list   => "ul",
-      :list_item        => "li",
-      :definition_list  => "dl",
-      :definition_term  => "dt",
-      :definition_descr => "dd",
-      :table            => "table",
-      :table_row        => "tr",
-      :quote            => "blockquote",
-      :example          => "pre",
-      :src              => "pre",
-      :inline_example   => "pre",
-      :center           => "div",
-      :heading1         => "h1",
-      :heading2         => "h2",
-      :heading3         => "h3",
-      :heading4         => "h4",
-      :heading5         => "h5",
-      :heading6         => "h6",
-      :title            => "h1"
-    }
+                    :paragraph        => "p",
+                    :ordered_list     => "ol",
+                    :unordered_list   => "ul",
+                    :list_item        => "li",
+                    :definition_list  => "dl",
+                    :definition_term  => "dt",
+                    :definition_descr => "dd",
+                    :table            => "table",
+                    :table_row        => "tr",
+                    :quote            => "blockquote",
+                    :example          => "pre",
+                    :src              => "pre",
+                    :inline_example   => "pre",
+                    :center           => "div",
+                    :heading1         => "h1",
+                    :heading2         => "h2",
+                    :heading3         => "h3",
+                    :heading4         => "h4",
+                    :heading5         => "h5",
+                    :heading6         => "h6",
+                    :title            => "h1"
+                   }
 
     attr_reader :options
 
@@ -215,8 +215,8 @@ module Orgmode
       @footnotes.each do |name, defi|
         @buffer = defi
         @output << "<p class=\"footnote\"><sup><a class=\"footnum\" name=\"fn.#{name}\" href=\"#fnr.#{name}\">#{name}</a></sup>" \
-                << inline_formatting(@buffer) \
-                << "</p>\n"
+          << inline_formatting(@buffer) \
+          << "</p>\n"
       end
 
       @output << "</div>\n</div>"
@@ -231,9 +231,11 @@ module Orgmode
 
     ######################################################################
     private
-def rouge_format(text)
-  
-end
+    def rouge_format(text,lang)
+      formatter = Rouge::Formatters::HTML.new
+      lexer = Rouge::Lexer.find(lang)
+      Rouge.highlight(text,lexer.new,formatter)
+    end
     def skip_tables?
       @options[:skip_tables]
     end
@@ -272,14 +274,14 @@ end
     end
 
     Tags = {
-      "*" => { :open => "b", :close => "b" },
-      "/" => { :open => "i", :close => "i" },
-      "_" => { :open => "span style=\"text-decoration:underline;\"",
-        :close => "span" },
-      "=" => { :open => "code", :close => "code" },
-      "~" => { :open => "code", :close => "code" },
-      "+" => { :open => "del", :close => "del" }
-    }
+            "*" => { :open => "b", :close => "b" },
+            "/" => { :open => "i", :close => "i" },
+            "_" => { :open => "span style=\"text-decoration:underline;\"",
+                    :close => "span" },
+            "=" => { :open => "code", :close => "code" },
+            "~" => { :open => "code", :close => "code" },
+            "+" => { :open => "del", :close => "del" }
+           }
 
     # Applies inline formatting rules to a string.
     def inline_formatting(str)
@@ -401,12 +403,12 @@ end
     #
     # The set of special characters and their escaped values
     TABLE_FOR_ESCAPE_HTML__ = {
-      "'" => '&#39;',
-      '&' => '&amp;',
-      '"' => '&quot;',
-      '<' => '&lt;',
-      '>' => '&gt;',
-    }
+                               "'" => '&#39;',
+                               '&' => '&amp;',
+                               '"' => '&quot;',
+                               '<' => '&lt;',
+                               '>' => '&gt;',
+                              }
     # Escape special characters in HTML, namely &\"<>
     #   escapeHTML('Usage: foo "bar" <baz>')
     #      # => "Usage: foo &quot;bar&quot; &lt;baz&gt;"
