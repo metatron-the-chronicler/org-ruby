@@ -122,6 +122,9 @@ module Orgmode
         case
         when (current_mode == :src and @options[:skip_syntax_highlight])
           @buffer = escapeHTML @buffer
+        when (current_mode == :src and defined? Rouge)
+          lang = normalize_lang @block_lang
+          @buffer = rouge_format(@buffer,lang)
         when (current_mode == :src and defined? Pygments)
           lang = normalize_lang @block_lang
           @output << "\n" unless @new_paragraph == :start
