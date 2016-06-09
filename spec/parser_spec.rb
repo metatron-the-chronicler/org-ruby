@@ -286,7 +286,7 @@ EXAMPLE
     end
   end
 
-  ['coderay', 'pygments'].each do |highlighter|
+  ['rouge','coderay', 'pygments'].each do |highlighter|
     if defined? (instance_eval highlighter.capitalize)
       describe "Export to HTML test cases with code syntax highlight: #{highlighter}" do
         code_syntax_examples_directory = File.join(File.dirname(__FILE__), "html_code_syntax_highlight_examples")
