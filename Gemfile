@@ -15,3 +15,7 @@ end
 group :pygments do
   gem 'pygments.rb'
 end
+
+group :rouge do
+  gem 'rouge'
+end
