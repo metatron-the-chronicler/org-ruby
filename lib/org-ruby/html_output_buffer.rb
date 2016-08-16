@@ -41,19 +41,9 @@ module Orgmode
 
       unless @options[:skip_syntax_highlight]
         begin
-          require 'rouge'
+          require "#{@options[:highlighter]}"
         rescue LoadError
-          # No Rouge try Pygments
-          begin
-            require 'pygments'
-          rescue LoadError
-            # Pygments is not supported so we try instead with CodeRay
-            begin
-              require 'coderay'
-            rescue LoadError
-              # No code syntax highlighting
-            end
-          end
+puts "uh-oh"
         end
       end
 
@@ -237,7 +227,8 @@ module Orgmode
     def rouge_format(text,lang)
       formatter = Rouge::Formatters::HTML.new
       lexer = Rouge::Lexer.find(lang)
-      Rouge.highlight(text,lexer.new,formatter)
+      pygment_wrapper = Rouge::Formatters::HTMLPygments.new(formatter, css_class='highlight')
+      Rouge.highlight(text,lexer.new,pygment_wrapper)
     end
     def skip_tables?
       @options[:skip_tables]
